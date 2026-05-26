@@ -1,0 +1,115 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{float}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\title{Proyecto Final: Sistema de Matrícula Universitaria por Consola}
+\author{Estudiante: MAPC \\ Asignatura: Lógica de Programación I}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Introducción}
+El presente proyecto consiste en el desarrollo de un sistema de matrícula para la Universidad SALLE, implementado en Java. El sistema permite gestionar un catálogo de cursos, realizar inscripciones de estudiantes, aplicar descuentos y calcular el total de la matrícula bajo condiciones específicas de beca.
+
+\section{Objetivos}
+\begin{itemize}
+    \item Implementar un sistema funcional de matrícula académica por consola.
+    \item Aplicar conocimientos de estructuras de datos como \texttt{ArrayList}.
+    \item Utilizar estructuras de control de flujo (\texttt{do-while}, \texttt{switch}, \texttt{if-else}).
+    \item Demostrar el uso de operadores aritméticos, relacionales y lógicos.
+\end{itemize}
+
+\section{Arquitectura del Sistema}
+La aplicación está contenida en la clase \texttt{App.java} y se organiza mediante métodos estáticos que separan la lógica de negocio de la interfaz de usuario.
+
+\subsection{Estructura de Datos}
+Se utilizan tres pares de listas paralelas:
+\begin{itemize}
+    \item \textbf{Catálogo Global:} \texttt{nombresCursos}, \texttt{valoresCursos}, \texttt{cuposCursos}. Estas listas mantienen el estado global de la universidad.
+    \item \textbf{Matrícula Individual:} \texttt{matriculaCursos}, \texttt{matriculaValores}. Estas listas se reinician al cambiar de usuario, simulando diferentes estudiantes.
+\end{itemize}
+
+\section{Reglas de Negocio Implementadas}
+Para garantizar un sistema realista y justo, se han implementado las siguientes restricciones:
+\begin{itemize}
+    \item \textbf{Límite de Cupo por Materia:} Un estudiante solo puede inscribir 1 cupo por materia. Esto evita que un solo usuario agote la disponibilidad de un curso.
+    \item \textbf{Carga Académica Máxima:} Cada estudiante tiene un límite máximo de 5 cursos por semestre.
+    \item \textbf{Sistema de Becas por Niveles:} En lugar de descuentos arbitrarios, el sistema evalúa el total bruto y asigna becas automáticamente:
+        \begin{itemize}
+            \item \textbf{Beca Excelencia (60\%):} Para totales $\geq$ 1000 USD.
+            \item \textbf{Beca Mérito (40\%):} Para totales $\geq$ 600 USD.
+            \item \textbf{Beca Parcial (20\%):} Para totales $\geq$ 200 USD.
+        \end{itemize}
+    \item \textbf{Simulación de Multi-usuario:} La opción de "Cambiar Estudiante" permite ver cómo las inscripciones de un alumno afectan los cupos globales para los siguientes.
+\end{itemize}
+
+\subsection{Métodos Principales}
+\begin{itemize}
+    \item \texttt{verCursos()}: Muestra el catálogo con el estado actual de cupos globales.
+    \item \texttt{inscribirCurso()}: Valida límites del estudiante y disponibilidad global.
+    \item \texttt{calcularBecaAutomatica()}: Aplica los niveles de beca según el monto total.
+    \item \texttt{cambiarUsuario()}: Reinicia la sesión individual manteniendo la persistencia del catálogo.
+\end{itemize}
+
+\section{Uso de Operadores}
+En el sistema se emplean diversos tipos de operadores:
+\begin{enumerate}
+    \item \textbf{Aritméticos:} Multiplicación (\texttt{*}) para subtotales y suma (\texttt{+}) para totales.
+    \item \textbf{Relacionales:} Mayor o igual (\texttt{>=}) para validar la beca de 200 USD.
+    \item \textbf{Lógicos:} AND (\texttt{\&\&}) para validar que la cantidad de cupos sea mayor a 0 y menor o igual a los disponibles.
+\end{enumerate}
+
+\section{Instrucciones de Compilación}
+Para ejecutar el programa, asegúrese de tener instalado el JDK y siga estos pasos:
+\begin{lstlisting}[language=bash]
+# Compilar
+javac src/App.java -d bin/
+
+# Ejecutar
+java -cp bin/ App
+\end{lstlisting}
+
+\section{Conclusiones}
+El sistema cumple con todos los requisitos funcionales solicitados, proporcionando una interfaz limpia y validaciones robustas para el proceso de matrícula universitaria.
+
+\end{document}
